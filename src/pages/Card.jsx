@@ -1,9 +1,12 @@
-
 import { LuLeafyGreen } from "react-icons/lu";
-import image1 from '../assets/image1.avif';
 import { GiChickenOven } from "react-icons/gi";
+import { useDispatch, useSelector } from "react-redux";
+import { AddItem } from "../redux/cartSlice";
+import {toast} from 'react-toastify';
 
 function Card({name,image,id,price,type}){
+    const dispatch = useDispatch();
+    const items = useSelector(state => state.cart);
     return(
         <>
             <div className='h-[400px] w-[300px] bg-white p-4 
@@ -26,7 +29,17 @@ function Card({name,image,id,price,type}){
                     <button className='flex justify-center items-center 
                     bg-green-400 w-full h-full p-3 text-lg font-semibold
                     rounded-md text-white hover:bg-green-600 cursor-pointer
-                    transition-all  '>Add to Dish</button>
+                    transition-all  ' 
+                    onClick={() => {dispatch(AddItem({
+                        id: id,
+                        name: name,
+                        price: price,
+                        image: image,
+                        qty: 1
+                    }));
+                    toast.success(`${name} added`)
+                }}
+                    >Add to Dish</button>
                 </div>
             </div>
         </>
